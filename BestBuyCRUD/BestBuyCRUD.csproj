@@ -11,4 +11,7 @@
   <ItemGroup>
     <Folder Include="bin\Debug\netcoreapp3.1\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\netcoreapp3.1\ConnectionString.txt" />
+  </ItemGroup>
 </Project>
