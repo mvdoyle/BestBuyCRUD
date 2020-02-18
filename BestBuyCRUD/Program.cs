@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using MySql.Data.MySqlClient;
 
 namespace BestBuyCRUD
@@ -10,31 +11,52 @@ namespace BestBuyCRUD
         static void Main(string[] args)
         {
 
-            var oldDepartments = GetAllDepartments();
+            IDbConnection conn = new MySqlConnection();
+            conn.ConnectionString = System.IO.File.ReadAllText("ConnectionString.txt");
 
-            foreach (var dept in oldDepartments)
+            var deptRepo = new DapperDepartmentRepository(conn);
+
+            //Console.WriteLine("What is the new product's Name?");
+            //var response = Console.ReadLine();
+
+            //Console.WriteLine("What is the new product's price?");
+            //var price = double.Parse(Console.ReadLine());
+
+            //Console.WriteLine("What is the new product's CategoryID?");
+            //var cat = int.Parse(Console.ReadLine());
+
+
+            var prodRepo = new DapperProductRepository(conn);
+
+            //prodRepo.CreateProduct(response, price, cat);
+            //Console.WriteLine("What is the ID of the product you would like to update?");
+            //var id = int.Parse(Console.ReadLine());
+
+            //Console.WriteLine("What would you like the product's new name to be?");
+            //var newName = Console.ReadLine();
+
+            //prodRepo.UpdateProductName(id, newName);
+
+            Console.WriteLine("What is the ID of the product you would like to delete?");
+            var prodID = int.Parse(Console.ReadLine());
+
+            prodRepo.DeleteProduct(prodID);
+
+
+            //var departments = deptRepo.GetAllDepartments();
+
+            //Console.WriteLine("ID | Name");
+            //foreach(var dept in departments)
+            //{
+            //    Console.WriteLine($"{dept.DepartmentID}  |  {dept.Name}");
+            //}
+
+
+            var products = prodRepo.GetAllProducts();
+
+            foreach (var product in products)
             {
-                Console.WriteLine(dept);
-            }
-
-            //Console.WriteLine("Would you like t");
-            //var userInput = Console.ReadLine();
-
-            //CreateDepartment(userInput);
-
-            Console.WriteLine("What department would you like to update?");
-            var currentDepartment = Console.ReadLine();
-
-            Console.WriteLine("What would you like to rename it to?");
-            var newDepartmentName = Console.ReadLine();
-
-            UpdateDepartment(currentDepartment, newDepartmentName);
-
-            var departments = GetAllDepartments();
-
-            foreach (var dept in departments)
-            {
-                Console.WriteLine(dept);
+                Console.WriteLine($"{product.ProductID} {product.Name}");
             }
 
         }
